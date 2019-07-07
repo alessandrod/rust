@@ -374,6 +374,10 @@ extern "C" LLVMTargetMachineRef LLVMRustCreateTargetMachine(
 
   Options.EmitStackSizeSection = EmitStackSizeSection;
 
+  // Needed to work around bug in ld.bfd:
+  // https://sourceware.org/bugzilla/show_bug.cgi?id=24784.
+  Options.RelaxELFRelocations = true;
+
   Optional<CodeModel::Model> CM;
   if (RustCM != LLVMRustCodeModel::None)
     CM = fromRust(RustCM);
